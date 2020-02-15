@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style type="text/css">
+		#nickWrap{
+			display: block;
+		}
+		#chatWrap{
+			display: none;
+		}
+		#namelist {
+			background: red;
+			color: white;
+			font-size: 50px;
+		}
+	</style>
+</head>
+
+
+<body>
+	<div class="container-fluid">
+		<h1 class="text-center">List of repository.</h1>
+
+		<a href="./new" class="btn btn-primary">Create New Repository</a>
+		<a id="refresh" class="btn btn-primary">Refresh</a>
+
+		<h1>Google projects</h1>
+		<table class="table" id="ProjectTable">
+			
+		</table>
+		<h1>Gitlab projects</h1>
+		<table class="table" id="Gitlabproject">
+			
+		</table>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			function refresh() {
+				$.get('./google', function(response) {
+					response = JSON.parse(response); // show the list 
+					console.log(response);
+					html = '';
+					html += '<thead>';
+					html += '<tr>';
+					html += '<th scope="col">#</th>';
+					html += '<th scope="col">Name</th>';
+					html += '<th scope="col">Type</th>';
+					html += '</tr>';
+					html += '</thead>';
+					html += '<tbody>';
+
+					jQuery.each(response.files, function(index, item) {
+						console.log(item);
+						html += '<tr>';
+						html += '<th scope="row">'+index+'</th>';
+						html += '<th scope="col"><a href="#">'+item.name+'</a></th>';
+						html += '<th scope="col">'+item.mimeType+'</th>';
+						html += '</tr>';
+					});
+					html += '</tbody>';
+
+
+					$('#ProjectTable').html(html);
+				});
+
+
+
+				$.get('./projects', function(response) {
+										response = JSON.parse(response); // show the list 
+					console.log(response);
+					html = '';
+					html += '<thead>';
+					html += '<tr>';
+					html += '<th scope="col">#</th>';
+					html += '<th scope="col">Name</th>';
+					html += '<th scope="col">Owner</th>';
+					html += '<th scope="col">Web URL</th>';
+					html += '<th scope="col">HTTP URL</th>';
+					html += '<th scope="col">SSH URL</th>';
+					html += '</tr>';
+					html += '</thead>';
+					html += '<tbody>';
+
+					jQuery.each(response, function(index, item) {
+						html += '<tr>';
+						html += '<th scope="row">'+index+'</th>';
+						html += '<th scope="col"><a href="./detail?id='+item.id+'">'+item.name+'</a></th>';
+						html += '<th scope="col">'+item.owner.name+'</th>';
+						html += '<th scope="col">'+item.web_url+'</th>';
+						html += '<th scope="col">'+item.http_url_to_repo+'</th>';
+						html += '<th scope="col">'+item.ssh_url_to_repo+'</th>';
+						html += '</tr>';
+					});
+					html += '</tbody>';
+
+
+					$('#Gitlabproject').html(html);
+				});
+			}
+			refresh();
+			$('#refresh').click(function () {
+				refresh();
+			});
+		});
+			
+	</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create your project</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style type="text/css">
+		#nickWrap{
+			display: block;
+		}
+		#chatWrap{
+			display: none;
+		}
+		#namelist {
+			background: red;
+			color: white;
+			font-size: 50px;
+		}
+	</style>
+</head>
+<body>
+	<section class="container" id="myForm">
+		<div class="text-center">
+			<h1 class="">Create Repository</h1>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-12">
+			    <label for="projectName">Repository Name</label>
+			    <input type="Name" class="form-control" id="projectName" placeholder="Enter Repository Name">
+			</div>
+
+			<div class="form-group col-12 text-center">
+				<button id="createProject" class="btn btn-primary ">Submit</button>
+			</div>
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+
+	$('#createProject').click(function () {
+
+		var projectName = $('#projectName').val();
+
+		if (projectName != '') {
+	            	console.log('data');
+			var data = {
+				name : projectName
+			}
+			$.ajax({
+	            method: "POST",
+	            url: './create',
+	            data: data,
+	            success: function(data){
+	            	// data = JSON.parse(data);
+	            	if (data == 1) {
+	            		window.location = "./";
+	            	} else {
+						alert('Something went wrong');
+	            	}
+	            }
+	        });
+		} else {
+			alert('Project Name is must required');
+		}
+    });
+
+	</script>
+</body>
+</html>
